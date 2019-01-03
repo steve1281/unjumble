@@ -19,3 +19,10 @@ strum
 # issues
 
 python 2.x only
+
+$ credits
+
+``` 
+Copied the word list from dwyl/english-words
+wget https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt
+```
