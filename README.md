@@ -20,7 +20,7 @@ strum
 
 python 2.x only
 
-$ credits
+# credits
 
 ``` 
 Copied the word list from dwyl/english-words
