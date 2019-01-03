@@ -9,33 +9,21 @@ import mmap
 # Note: Currently using dictionary from github dwyl/english-words
 DICT_PATH = os.path.dirname(os.path.abspath(__file__)) + '/words_alpha.txt'
 
-def uniq(iterable):
-    """ snippit to remove identical permutations """
-    seen = set()
-    for x in iterable:
-        if x in seen:
-            continue
-        seen.add(x)
-        yield x
-
 def scan_words(s):
     """ produce a list of unique perms and print the ones in the dictionary """
-    t = list(uniq(itertools.permutations(s, len(s))))
-    for i in range(0, len(t)):
+    t = list(set(itertools.permutations(s, len(s))))
+    for i in range(len(t)):
         if check_word(''.join(t[i])):
             print ''.join(t[i])
 
 def check_word(word):
     """ scan dictionary for matches. Note this is a HUGE file; use mmap """
     found = False
-    f = open(DICT_PATH)
-    s = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
-    # Note that each word terminates with \r\n.
-    if s.find('\n'+word+'\r') != -1:
-        found = True
-    f.close()
-    return found
-
+    with open(DICT_PATH) as f:
+        s = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+        # Note that each word terminates with \r\n.
+        if s.find('\n'+word+'\r') != -1:
+            return True
 
 def main():
     """ main - figure out the source for the jumble and scan """
