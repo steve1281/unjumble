@@ -15,3 +15,7 @@ $ unjumble turms
 Jumble is: turms
 strum
 ```
+
+# issues
+
+python 2.x only
