@@ -9,17 +9,17 @@ import mmap
 # Note: Currently using dictionary from github dwyl/english-words
 DICT_PATH = os.path.dirname(os.path.abspath(__file__)) + '/words_alpha.txt'
 
-def scan_words(s):
+def scan_words(s, n):
     """ produce a list of unique perms and print the ones in the dictionary """
-    t = list(set(itertools.permutations(s, len(s))))
+    t = list(set(itertools.permutations(s, n)))
     for i in range(len(t)):
-        if check_word(''.join(t[i])):
-            print ''.join(t[i])
+        if check_word("".join(t[i])):
+            print ("".join(t[i]))
 
 def check_word(word):
     """ scan dictionary for matches. Note this is a HUGE file; use mmap """
     found = False
-    with open(DICT_PATH) as f:
+    with open(DICT_PATH, 'rb') as f:
         s = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
         # Note that each word terminates with \r\n.
         if s.find('\n'+word+'\r') != -1:
@@ -31,8 +31,16 @@ def main():
         s = 'abc'
     else:
         s = sys.argv[1]
-    print 'Jumble is: %s' % s
-    scan_words(s)
+
+    if len(sys.argv) ==2:
+        n = len(s)
+    else:
+        print ('This might take a while')
+        n =  int(sys.argv[2])
+
+    print ('Jumble is: %s %d' % (s, n))
+    scan_words(s, n)
+    
 
 if __name__ == '__main__':
     main()
